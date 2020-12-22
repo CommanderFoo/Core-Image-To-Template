@@ -42,6 +42,7 @@ class Merge_Pixels {
 						} else {
 							pixel_data.x_parent = prev;
 							prev.width = 2;
+							prev.is_parent = true
 						}
 					}
 				}
@@ -57,7 +58,7 @@ class Merge_Pixels {
 				if(this.data_cache[y - 1]){
 					let prev = this.data_cache[y - 1][x];
 
-					if(prev.x_parent){
+					if(prev.x_parent || pixel_data.is_parent || prev.is_parent){
 						continue;
 					}
 
@@ -132,13 +133,15 @@ class Pixel_Art_To_Template {
 			let non_merged_counter = 0;
 			let merged_counter = 0;
 			let alpha_cutoff = parseInt($("#alphacutoff").val(), 10);
-			let pixel_scale = parseFloat($("#pixelscale").val());
+			let image_scale = parseFloat($("#imagescale").val());
+
+			//console.log(merged_data)
 
 			for(let y = 0; y < height; ++ y){
 				for(let x = 0; x < width; ++ x){	
-					let pixel_data = merged_data[y][x]
-					let pixel_width = pixel_data.width || 1
-					let pixel_height = 1;
+					let pixel_data = merged_data[y][x];
+					let pixel_width = pixel_data.width || 1;
+					let pixel_height = pixel_data.height || 1;
 
 					if(pixel_data.a < alpha_cutoff){
 						continue;
@@ -146,13 +149,12 @@ class Pixel_Art_To_Template {
 
 					non_merged_counter ++;
 
-					if(pixel_data.x_parent){
+					if(pixel_data.x_parent || pixel_data.y_parent){
 						continue;
 					}
 					
 					merged_counter ++;
 
-					
 					let child_id = this.get_unique_id()
 					let r = pixel_data.r / 255;
 					let g = pixel_data.g / 255;
@@ -160,10 +162,10 @@ class Pixel_Art_To_Template {
 					let a = pixel_data.a / 255;
 
 					let pixel_x = ((x + (pixel_width / 2)) * 10);
-					let pixel_y = (y * 10);
+					let pixel_y = ((y + (pixel_height / 2)) * 10);
 
-					let scale_x = pixel_width * pixel_scale;
-					let scale_z = pixel_scale;
+					let scale_x = pixel_width * .1;
+					let scale_y = pixel_height * .1;
 
 					child_ids.push(child_id);
 
@@ -181,9 +183,9 @@ class Pixel_Art_To_Template {
 							child_str += "\t\t\t\t\t}\n";
 							child_str += "\t\t\t\t\tScale {\n";
 								child_str += "\t\t\t\t\t\tX: " + scale_x + "\n";
-								child_str += "\t\t\t\t\t\tY: " + pixel_scale + "\n";
-								child_str += "\t\t\t\t\t\tZ: " + scale_z + "\n";
-							child_str += "\t\t\t\t\t}\n"
+								child_str += "\t\t\t\t\t\tY: " + scale_y + "\n";
+								child_str += "\t\t\t\t\t\tZ: .1\n";
+								child_str += "\t\t\t\t\t}\n"
 						child_str += "\t\t\t\t}\n";
 						child_str += "\t\t\t\tParentId: " + merged_id + "\n";
 
@@ -245,9 +247,9 @@ class Pixel_Art_To_Template {
 							tpl += "\t\t\t\tName: \"Pixel Art\"\n";
 							tpl += "\t\t\t\tTransform {\n";
 								tpl += "\t\t\t\t\tScale {\n";
-									tpl += "\t\t\t\t\t\tX: .2\n";
-									tpl += "\t\t\t\t\t\tY: .2\n";
-									tpl += "\t\t\t\t\t\tZ: .2\n";
+									tpl += "\t\t\t\t\t\tX: " + image_scale + "\n";
+									tpl += "\t\t\t\t\t\tY: " + image_scale + "\n";
+									tpl += "\t\t\t\t\t\tZ: " + image_scale + "\n";
 								tpl += "\t\t\t\t\t\t}\n";
 							tpl += "\t\t\t\t\t}\n";
 						
