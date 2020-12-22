@@ -101,7 +101,7 @@ class Pixel_Art_To_Template {
 					g: data[index + 1],
 					b: data[index + 2],
 					a: data[index + 3],
-					combined: data[index] + data[index + 1] + data[index + 2]
+					combined: data[index] + data[index + 1] + data[index + 2] + data[index + 3]
 
 				};
 			}
@@ -169,8 +169,8 @@ class Pixel_Art_To_Template {
 						pixel_x = (((x + (pixel_width / 2)) * (object_scale / 10))).toFixed(4);
 						pixel_y = (((y + (pixel_height / 2)) * (object_scale / 10))).toFixed(4);
 
-						scale_x = (pixel_width * (object_scale / 10)).toFixed(0);
-						scale_y = (pixel_height * (object_scale / 10)).toFixed(0);
+						scale_x = Math.round(pixel_width * (object_scale / 10));
+						scale_y = Math.round(pixel_height * (object_scale / 10));
 					} else {
 						pixel_x = ((x + (pixel_width / 2)) * 10);
 						pixel_y = ((y + (pixel_height / 2)) * 10);
@@ -302,11 +302,17 @@ class Pixel_Art_To_Template {
 				}
 			}
 		
+			let file_n = file_name;
+
+			if(is_ui){
+				file_n = "UI - " + file_n + " " +  merged_data[0].length + "x" + merged_data.length;
+			}
+
 			let tpl = "";
 
 			tpl += "Assets {\n";
 				tpl += "\tId: " + asset_id + "\n";
-				tpl += "\tName: \"" + ((is_ui)? "UI - " : "") + file_name + "\"\n";
+				tpl += "\tName: \"" + file_n + "\"\n";
 				tpl += "\tPlatformAssetType: 5\n";
 				tpl += "\tTemplateAsset {\n";
 					tpl += "\t\tObjectBlock {\n";
@@ -460,7 +466,7 @@ class Pixel_Art_To_Template {
 			$("#total").text(non_merged_counter);
 			$("#mergetotal").text(merged_counter);
 
-			this.save(((is_ui)? "UI - " : "") + file_name + ".pbt", tpl, merged_counter);
+			this.save(file_n + ".pbt", tpl, merged_counter);
 		}
 	}
 
