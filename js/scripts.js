@@ -134,8 +134,7 @@ class Pixel_Art_To_Template {
 			let merged_counter = 0;
 			let alpha_cutoff = parseInt($("#alphacutoff").val(), 10);
 			let object_scale = parseFloat($("#objectscale").val());
-
-			//console.log(merged_data)
+			let is_ui = ($("#ui").prop("checked"))? true : false;
 
 			for(let y = 0; y < height; ++ y){
 				for(let x = 0; x < width; ++ x){	
@@ -161,11 +160,24 @@ class Pixel_Art_To_Template {
 					let b = pixel_data.b / 255;
 					let a = pixel_data.a / 255;
 
-					let pixel_x = ((x + (pixel_width / 2)) * 10);
-					let pixel_y = ((y + (pixel_height / 2)) * 10);
+					let pixel_x = 0
+					let pixel_y = 0
+					let scale_x = 0
+					let scale_y = 0
 
-					let scale_x = pixel_width * .1;
-					let scale_y = pixel_height * .1;
+					if(is_ui){
+						pixel_x = (((x + (pixel_width / 2)) * (object_scale / 10))).toFixed(4);
+						pixel_y = (((y + (pixel_height / 2)) * (object_scale / 10))).toFixed(4);
+
+						scale_x = (pixel_width * (object_scale / 10)).toFixed(0);
+						scale_y = (pixel_height * (object_scale / 10)).toFixed(0);
+					} else {
+						pixel_x = ((x + (pixel_width / 2)) * 10);
+						pixel_y = ((y + (pixel_height / 2)) * 10);
+				
+						scale_x = pixel_width * .1;
+						scale_y = pixel_height * .1;
+					}
 
 					child_ids.push(child_id);
 
@@ -174,38 +186,56 @@ class Pixel_Art_To_Template {
 						child_str += "\t\t\t\tName: \"Pixel\"\n";
 						child_str += "\t\t\t\tTransform {\n";
 							child_str += "\t\t\t\t\tLocation {\n";
-								child_str += "\t\t\t\t\t\tX: " + pixel_x + "\n";
-								child_str += "\t\t\t\t\t\tY: 0\n";
-								child_str += "\t\t\t\t\t\tZ: " + pixel_y + "\n";
+
+								if(!is_ui){
+									child_str += "\t\t\t\t\t\tX: " + pixel_x + "\n";
+									child_str += "\t\t\t\t\t\tY: 0\n";
+									child_str += "\t\t\t\t\t\tZ: " + pixel_y + "\n";	
+								}
+
 							child_str += "\t\t\t\t\t}\n";
 							child_str += "\t\t\t\t\tRotation {\n";
-								child_str += "\t\t\t\t\t\tRoll: 90\n";
+
+								if(!is_ui){
+									child_str += "\t\t\t\t\t\tRoll: 90\n";
+								}
+
 							child_str += "\t\t\t\t\t}\n";
 							child_str += "\t\t\t\t\tScale {\n";
-								child_str += "\t\t\t\t\t\tX: " + scale_x + "\n";
-								child_str += "\t\t\t\t\t\tY: " + scale_y + "\n";
-								child_str += "\t\t\t\t\t\tZ: .1\n";
+								if(!is_ui){
+									child_str += "\t\t\t\t\t\tX: " + scale_x + "\n";
+									child_str += "\t\t\t\t\t\tY: " + scale_y + "\n";
+									child_str += "\t\t\t\t\t\tZ: .1\n";
+								}
+
 								child_str += "\t\t\t\t\t}\n"
 						child_str += "\t\t\t\t}\n";
-						child_str += "\t\t\t\tParentId: " + merged_id + "\n";
 
-						child_str += "\t\t\t\tUnregisteredParameters {\n";
-							child_str += "\t\t\t\t\tOverrides {\n";
-								child_str += "\t\t\t\t\t\tName: \"ma:Shared_BaseMaterial:id\"\n";
-								child_str += "\t\t\t\t\t\tAssetReference {\n";
-									child_str += "\t\t\t\t\t\t\tId: " + material_asset_id + "\n";
-								child_str += "\t\t\t\t\t\t}\n";
-							child_str += "\t\t\t\t\t}\n";
-							child_str += "\t\t\t\t\tOverrides {\n";
-								child_str += "\t\t\t\t\t\tName: \"ma:Shared_BaseMaterial:color\"\n";
-								child_str += "\t\t\t\t\t\tColor {\n";
-									child_str += "\t\t\t\t\t\t\tR: " + parseFloat(parseFloat(r).toFixed(4)) + "\n";
-									child_str += "\t\t\t\t\t\t\tG: " + parseFloat(parseFloat(g).toFixed(4)) + "\n";
-									child_str += "\t\t\t\t\t\t\tB: " + parseFloat(parseFloat(b).toFixed(4)) + "\n";
-									child_str += "\t\t\t\t\t\t\tA: " + parseFloat(parseFloat(a).toFixed(4)) + "\n";
-								child_str += "\t\t\t\t\t\t}\n";
-							child_str += "\t\t\t\t\t}\n";
-						child_str += "\t\t\t\t}\n";
+						if(!is_ui){
+							child_str += "\t\t\t\tParentId: " + merged_id + "\n";
+						} else {
+							child_str += "\t\t\t\tParentId: " + root_id + "\n";
+						}
+
+						if(!is_ui){
+							child_str += "\t\t\t\tUnregisteredParameters {\n";
+								child_str += "\t\t\t\t\tOverrides {\n";
+									child_str += "\t\t\t\t\t\tName: \"ma:Shared_BaseMaterial:id\"\n";
+									child_str += "\t\t\t\t\t\tAssetReference {\n";
+										child_str += "\t\t\t\t\t\t\tId: " + material_asset_id + "\n";
+									child_str += "\t\t\t\t\t\t}\n";
+								child_str += "\t\t\t\t\t}\n";
+								child_str += "\t\t\t\t\tOverrides {\n";
+									child_str += "\t\t\t\t\t\tName: \"ma:Shared_BaseMaterial:color\"\n";
+									child_str += "\t\t\t\t\t\tColor {\n";
+										child_str += "\t\t\t\t\t\t\tR: " + parseFloat(parseFloat(r).toFixed(4)) + "\n";
+										child_str += "\t\t\t\t\t\t\tG: " + parseFloat(parseFloat(g).toFixed(4)) + "\n";
+										child_str += "\t\t\t\t\t\t\tB: " + parseFloat(parseFloat(b).toFixed(4)) + "\n";
+										child_str += "\t\t\t\t\t\t\tA: " + parseFloat(parseFloat(a).toFixed(4)) + "\n";
+									child_str += "\t\t\t\t\t\t}\n";
+								child_str += "\t\t\t\t\t}\n";
+							child_str += "\t\t\t\t}\n";
+						}
 						
 						child_str += "\t\t\t\tCollidable_v2 {\n";
 							child_str += "\t\t\t\t\tValue: \"mc:ecollisionsetting:forceoff\"\n";
@@ -213,22 +243,61 @@ class Pixel_Art_To_Template {
 						child_str += "\t\t\t\tVisible_v2 {\n";
 							child_str += "\t\t\t\t\tValue: \"mc:evisibilitysetting:inheritfromparent\"\n";
 						child_str += "\t\t\t\t}\n";
-						child_str += "\t\t\t\tCoreMesh {\n";
-							child_str += "\t\t\t\t\tMeshAsset {\n";
-								child_str += "\t\t\t\t\t\tId: " + mesh_asset_id + "\n";
-							child_str += "\t\t\t\t\t}\n";
-							child_str += "\t\t\t\t\tTeams {\n";
-								child_str += "\t\t\t\t\t\tIsTeamCollisionEnabled: true\n";
-								child_str += "\t\t\t\t\t\tIsEnemyCollisionEnabled: true\n";
-							child_str += "\t\t\t\t\t}\n";
-							child_str += "\t\t\t\t\tEnableCameraCollision: true\n";
-							child_str += "\t\t\t\t\tStaticMesh {\n";
-								child_str += "\t\t\t\t\t\tPhysics {\n"
-									child_str += "\t\t\t\t\t\t\tMass: 100\n";
-									child_str += "\t\t\t\t\t\t\tLinearDamping: 0.01\n";
-								child_str += "\t\t\t\t\t\t}\n";
-							child_str += "\t\t\t\t\t}\n";
-						child_str += "\t\t\t\t}\n";
+
+						if(!is_ui){
+							child_str += "\t\t\t\tCoreMesh {\n";
+								child_str += "\t\t\t\t\tMeshAsset {\n";
+									child_str += "\t\t\t\t\t\tId: " + mesh_asset_id + "\n";
+								child_str += "\t\t\t\t\t}\n";
+								child_str += "\t\t\t\t\tTeams {\n";
+									child_str += "\t\t\t\t\t\tIsTeamCollisionEnabled: true\n";
+									child_str += "\t\t\t\t\t\tIsEnemyCollisionEnabled: true\n";
+								child_str += "\t\t\t\t\t}\n";
+								child_str += "\t\t\t\t\tEnableCameraCollision: true\n";
+								child_str += "\t\t\t\t\tStaticMesh {\n";
+									child_str += "\t\t\t\t\t\tPhysics {\n"
+										child_str += "\t\t\t\t\t\t\tMass: 100\n";
+										child_str += "\t\t\t\t\t\t\tLinearDamping: 0.01\n";
+									child_str += "\t\t\t\t\t\t}\n";
+								child_str += "\t\t\t\t\t}\n";
+							child_str += "\t\t\t\t}\n";
+						} else {
+							child_str += "\t\t\t\tControl {\n";
+								child_str += "\t\t\t\t\tWidth: " + scale_x + "\n";
+								child_str += "\t\t\t\t\tHeight: " + scale_y + "\n";
+								child_str += "\t\t\t\t\tUIX: " + pixel_x + "\n";
+								child_str += "\t\t\t\t\tUIY: " + pixel_y + "\n";
+								child_str += "\t\t\t\t\tRenderTransformPivot {\n";
+									child_str += "\t\t\t\t\t\tAnchor {\n";
+										child_str += "\t\t\t\t\t\t\tValue: \"mc:euianchor:middlecenter\"\n";
+									child_str += "\t\t\t\t\t\t}\n";
+								child_str += "\t\t\t\t\t}\n";
+								child_str += "\t\t\t\t\tImage {\n";
+									child_str += "\t\t\t\t\t\tBrush {\n";
+									child_str += "\t\t\t\t\t\t}\n";
+									child_str += "\t\t\t\t\t\tColor {\n";
+										child_str += "\t\t\t\t\t\t\tR: " + parseFloat(parseFloat(r).toFixed(4)) + "\n";
+										child_str += "\t\t\t\t\t\t\tG: " + parseFloat(parseFloat(g).toFixed(4)) + "\n";
+										child_str += "\t\t\t\t\t\t\tB: " + parseFloat(parseFloat(b).toFixed(4)) + "\n";
+										child_str += "\t\t\t\t\t\t\tA: " + parseFloat(parseFloat(a).toFixed(4)) + "\n";
+									child_str += "\t\t\t\t\t\t}\n";
+									child_str += "\t\t\t\t\t\tTeamSettings {\n";
+									child_str += "\t\t\t\t\t\t}\n";
+								child_str += "\t\t\t\t\t}\n";
+								child_str += "\t\t\t\t\tAnchorLayout {\n";
+									child_str += "\t\t\t\t\t\tSelfAnchor {\n";
+										child_str += "\t\t\t\t\t\t\tAnchor {\n";
+											child_str += "\t\t\t\t\t\t\t\tValue: \"mc:euianchor:middlecenter\"\n";
+										child_str += "\t\t\t\t\t\t\t}\n";
+									child_str += "\t\t\t\t\t\t}\n";
+									child_str += "\t\t\t\t\t\tTargetAnchor {\n";
+										child_str += "\t\t\t\t\t\t\tAnchor {\n";
+											child_str += "\t\t\t\t\t\t\t\tValue: \"mc:euianchor:topleft\"\n";
+										child_str += "\t\t\t\t\t\t\t}\n";
+									child_str += "\t\t\t\t\t\t}\n";
+								child_str += "\t\t\t\t\t}\n";
+							child_str += "\t\t\t\t}\n";
+						}
 					child_str += "\t\t\t}\n";	
 				}
 			}
@@ -237,7 +306,7 @@ class Pixel_Art_To_Template {
 
 			tpl += "Assets {\n";
 				tpl += "\tId: " + asset_id + "\n";
-				tpl += "\tName: \"" + file_name + "\"\n";
+				tpl += "\tName: \"" + ((is_ui)? "UI - " : "") + file_name + "\"\n";
 				tpl += "\tPlatformAssetType: 5\n";
 				tpl += "\tTemplateAsset {\n";
 					tpl += "\t\tObjectBlock {\n";
@@ -247,14 +316,83 @@ class Pixel_Art_To_Template {
 							tpl += "\t\t\t\tName: \"Pixel Art\"\n";
 							tpl += "\t\t\t\tTransform {\n";
 								tpl += "\t\t\t\t\tScale {\n";
-									tpl += "\t\t\t\t\t\tX: " + object_scale + "\n";
-									tpl += "\t\t\t\t\t\tY: " + object_scale + "\n";
-									tpl += "\t\t\t\t\t\tZ: " + object_scale + "\n";
-								tpl += "\t\t\t\t\t\t}\n";
-							tpl += "\t\t\t\t\t}\n";
+									if(!is_ui){
+										tpl += "\t\t\t\t\t\tX: " + object_scale + "\n";
+										tpl += "\t\t\t\t\t\tY: " + object_scale + "\n";
+										tpl += "\t\t\t\t\t\tZ: " + object_scale + "\n";
+									}
+								tpl += "\t\t\t\t\t}\n";
+							tpl += "\t\t\t\t}\n";
 						
 							tpl += "\t\t\t\tParentId: " + this.get_unique_id() + "\n";
-							tpl += "\t\t\t\tChildIds: " + merged_id + "\n";					
+
+							if(!is_ui){
+								tpl += "\t\t\t\tChildIds: " + merged_id + "\n";
+							} else {
+								for(let c = 0; c < child_ids.length; c ++){
+									tpl += "\t\t\t\tChildIds: " + child_ids[c] + "\n";
+								}
+							}
+
+							tpl += "\t\t\t\tCollidable_v2 {\n";
+								tpl += "\t\t\t\t\tValue: \"mc:ecollisionsetting:forceoff\"\n";
+							tpl += "\t\t\t\t}\n";
+							tpl += "\t\t\t\tVisible_v2 {\n";
+								tpl += "\t\t\t\t\tValue: \"mc:evisibilitysetting:inheritfromparent\"\n";
+							tpl += "\t\t\t\t}\n";
+
+							if(is_ui){
+								tpl += "\t\t\t\tControl {\n";
+									tpl += "\t\t\t\t\tWidth: " + (merged_data[0].length * (object_scale / 10)).toFixed(0) + "\n";
+									tpl += "\t\t\t\t\tHeight: " + (merged_data.length * (object_scale / 10)).toFixed(0) + "\n";
+									tpl += "\t\t\t\t\tRenderTransformPivot {\n";
+										tpl += "\t\t\t\t\t\tAnchor {\n";
+											tpl += "\t\t\t\t\t\t\tValue: \"mc:euianchor:middlecenter\"\n";
+										tpl += "\t\t\t\t\t\t}\n";
+									tpl += "\t\t\t\t\t}\n";
+									tpl += "\t\t\t\t\tPanel {\n";
+									tpl += "\t\t\t\t\t}\n";
+									tpl += "\t\t\t\t\tAnchorLayout {\n";
+										tpl += "\t\t\t\t\t\tSelfAnchor {\n";
+											tpl += "\t\t\t\t\t\t\tAnchor {\n";
+												tpl += "\t\t\t\t\t\t\t\tValue: \"mc:euianchor:middlecenter\"\n";
+											tpl += "\t\t\t\t\t\t\t}\n";
+										tpl += "\t\t\t\t\t\t}\n";
+										tpl += "\t\t\t\t\t\tTargetAnchor {\n";
+											tpl += "\t\t\t\t\t\t\tAnchor {\n";
+												tpl += "\t\t\t\t\t\t\t\tValue: \"mc:euianchor:middlecenter\"\n";
+											tpl += "\t\t\t\t\t\t\t}\n";
+										tpl += "\t\t\t\t\t\t}\n";
+									tpl += "\t\t\t\t\t}\n";
+								tpl += "\t\t\t\t}\n";
+							} else {
+								tpl += "\t\t\t\tFolder {\n";
+									tpl += "\t\t\t\t\tIsFilePartition: true\n";
+								tpl += "\t\t\t\t}\n";
+							}
+
+						tpl += "\t\t\t}\n";
+				
+						if(!is_ui){
+							tpl += "\t\t\tObjects {\n";
+								tpl += "\t\t\t\tId: " + merged_id + "\n";
+								tpl += "\t\t\t\tName: \"Merged Model\"\n";
+								tpl += "\t\t\t\tTransform {\n";
+									tpl += "\t\t\t\t\tScale {\n";
+									tpl += "\t\t\t\t\t\tX: 1\n";
+									tpl += "\t\t\t\t\t\tY: 1\n";
+									tpl += "\t\t\t\t\t\tZ: 1\n";
+								tpl += "\t\t\t\t\t}\n";
+							tpl += "\t\t\t\t}\n";
+						
+							tpl += "\t\t\t\tParentId: " + root_id + "\n";
+						
+							for(let c = 0; c < child_ids.length; c ++){
+								tpl += "\t\t\t\tChildIds: " + child_ids[c] + "\n";
+							}
+						}
+
+						if(!is_ui){
 							tpl += "\t\t\t\tCollidable_v2 {\n";
 								tpl += "\t\t\t\t\tValue: \"mc:ecollisionsetting:forceoff\"\n";
 							tpl += "\t\t\t\t}\n";
@@ -262,76 +400,55 @@ class Pixel_Art_To_Template {
 								tpl += "\t\t\t\t\tValue: \"mc:evisibilitysetting:inheritfromparent\"\n";
 							tpl += "\t\t\t\t}\n";
 							tpl += "\t\t\t\tFolder {\n";
-								tpl += "\t\t\t\t\tIsFilePartition: true\n";
+								tpl += "\t\t\t\t\tModel {\n";
+								tpl += "\t\t\t\t\t\t\AggressiveMerge: true\n";
+								tpl += "\t\t\t\t\t\}\n";
 							tpl += "\t\t\t\t}\n";
-						tpl += "\t\t\t}\n";
-				
-						tpl += "\t\t\tObjects {\n";
-							tpl += "\t\t\t\tId: " + merged_id + "\n";
-							tpl += "\t\t\t\tName: \"Merged Model\"\n";
-							tpl += "\t\t\t\tTransform {\n";
-								tpl += "\t\t\t\t\tScale {\n";
-								tpl += "\t\t\t\t\t\tX: 1\n";
-								tpl += "\t\t\t\t\t\tY: 1\n";
-								tpl += "\t\t\t\t\t\tZ: 1\n";
-							tpl += "\t\t\t\t\t}\n";
-						tpl += "\t\t\t\t}\n";
-						tpl += "\t\t\t\tParentId: " + root_id + "\n";
-						
-						for(let c = 0; c < child_ids.length; c ++){
-							tpl += "\t\t\t\tChildIds: " + child_ids[c] + "\n";
+
+							tpl += "\t\t\t}\n";
 						}
 
-						tpl += "\t\t\t\tCollidable_v2 {\n";
-							tpl += "\t\t\t\t\tValue: \"mc:ecollisionsetting:forceoff\"\n";
-						tpl += "\t\t\t\t}\n";
-						tpl += "\t\t\t\tVisible_v2 {\n";
-							tpl += "\t\t\t\t\tValue: \"mc:evisibilitysetting:inheritfromparent\"\n";
-						tpl += "\t\t\t\t}\n";
-						tpl += "\t\t\t\tFolder {\n";
-							tpl += "\t\t\t\t\tModel {\n";
-							tpl += "\t\t\t\t\t\AggressiveMerge: true\n";
-							tpl += "\t\t\t\t\t\}\n";
-						tpl += "\t\t\t\t}\n";
-					tpl += "\t\t\t}\n";
-				
 					tpl += child_str
-
-					let pixel_material_name = "Basic Material"
-					let pixel_material_asset_id = "mi_basic_pbr_material_001";
-
-					if($("#material").prop("checked")){
-						pixel_material_name = "Emissive Glow Opaque"
-						pixel_material_asset_id = "fxma_opaque_emissive"
-					}
-
-					let plane_name = "Plane 1m - One Sided";
-					let plane_asset_id = "sm_plane_1m_001";
 					
-					if($("#doublesided").prop("checked")){
-						plane_name = "Plane 1m - Two Sided"
-						plane_asset_id = "sm_plane_1m_002"
+					tpl += "\t\t}\n";
+
+					if(!is_ui){
+						let pixel_material_name = "Basic Material"
+						let pixel_material_asset_id = "mi_basic_pbr_material_001";
+
+						if($("#material").prop("checked")){
+							pixel_material_name = "Emissive Glow Opaque"
+							pixel_material_asset_id = "fxma_opaque_emissive"
+						}
+
+						let plane_name = "Plane 1m - One Sided";
+						let plane_asset_id = "sm_plane_1m_001";
+						
+						if($("#doublesided").prop("checked")){
+							plane_name = "Plane 1m - Two Sided"
+							plane_asset_id = "sm_plane_1m_002"
+						}
+
+						tpl += "\t\tAssets {\n";
+							tpl += "\t\t\tId: " + mesh_asset_id + "\n";
+							tpl += "\t\t\tName: \"" + plane_name + "\"\n";
+							tpl += "\t\t\tPlatformAssetType: 1\n";
+							tpl += "\t\t\tPrimaryAsset {\n";
+								tpl += "\t\t\t\tAssetType: \"StaticMeshAssetRef\"\n";
+								tpl += "\t\t\t\tAssetId: \"" + plane_asset_id + "\"\n";
+							tpl += "\t\t\t}\n";
+						tpl += "\t\t}\n";
+						tpl += "\t\tAssets {\n";
+							tpl += "\t\t\tId: " + material_asset_id + "\n";
+							tpl += "\t\t\tName: \"" + pixel_material_name + "\"\n";
+							tpl += "\t\t\tPlatformAssetType: 2\n";
+							tpl += "\t\t\tPrimaryAsset {\n";
+								tpl += "\t\t\t\tAssetType: \"MaterialAssetRef\"\n";
+								tpl += "\t\t\t\tAssetId: \"" + pixel_material_asset_id + "\"\n";
+							tpl += "\t\t\t}\n";
+						tpl += "\t\t}\n";
 					}
 
-					tpl += "\t\t}\n";
-					tpl += "\t\tAssets {\n";
-						tpl += "\t\t\tId: " + mesh_asset_id + "\n";
-						tpl += "\t\t\tName: \"" + plane_name + "\"\n";
-						tpl += "\t\t\tPlatformAssetType: 1\n";
-						tpl += "\t\t\tPrimaryAsset {\n";
-							tpl += "\t\t\t\tAssetType: \"StaticMeshAssetRef\"\n";
-							tpl += "\t\t\t\tAssetId: \"" + plane_asset_id + "\"\n";
-						tpl += "\t\t\t}\n";
-					tpl += "\t\t}\n";
-					tpl += "\t\tAssets {\n";
-						tpl += "\t\t\tId: " + material_asset_id + "\n";
-						tpl += "\t\t\tName: \"" + pixel_material_name + "\"\n";
-						tpl += "\t\t\tPlatformAssetType: 2\n";
-						tpl += "\t\t\tPrimaryAsset {\n";
-							tpl += "\t\t\t\tAssetType: \"MaterialAssetRef\"\n";
-							tpl += "\t\t\t\tAssetId: \"" + pixel_material_asset_id + "\"\n";
-						tpl += "\t\t\t}\n";
-					tpl += "\t\t}\n";
 					tpl += "\t\tPrimaryAssetId {\n";
 						tpl += "\t\t\tAssetType: \"None\"\n";
 						tpl += "\t\t\tAssetId: \"None\"\n";
@@ -393,12 +510,16 @@ $(() => {
 
 						context.clearRect(0, 0, preview.attr("width"), preview.attr("width"));
 
-						context.save();
-						context.translate(preview.attr("width") / 2, preview.attr("height") / 2);
-						context.rotate(180 * Math.PI / 180);
-						context.scale(-1, 1);
-						context.drawImage(image, -image.width / 2, -image.height / 2);
-						context.restore();
+						if(!$("#ui").prop("checked")){
+							context.save();
+							context.translate(preview.attr("width") / 2, preview.attr("height") / 2);		
+							context.rotate(180 * Math.PI / 180);
+							context.scale(-1, 1);
+							context.drawImage(image, -image.width / 2, -image.height / 2);
+							context.restore();
+						} else {
+							context.drawImage(image, 0, 0);
+						}
 
 						let name = "Pixel Art - " + the_file.name.split(".")[0];
 
