@@ -133,7 +133,7 @@ class Pixel_Art_To_Template {
 			let non_merged_counter = 0;
 			let merged_counter = 0;
 			let alpha_cutoff = parseInt($("#alphacutoff").val(), 10);
-			let image_scale = parseFloat($("#imagescale").val());
+			let object_scale = parseFloat($("#objectscale").val());
 
 			//console.log(merged_data)
 
@@ -247,9 +247,9 @@ class Pixel_Art_To_Template {
 							tpl += "\t\t\t\tName: \"Pixel Art\"\n";
 							tpl += "\t\t\t\tTransform {\n";
 								tpl += "\t\t\t\t\tScale {\n";
-									tpl += "\t\t\t\t\t\tX: " + image_scale + "\n";
-									tpl += "\t\t\t\t\t\tY: " + image_scale + "\n";
-									tpl += "\t\t\t\t\t\tZ: " + image_scale + "\n";
+									tpl += "\t\t\t\t\t\tX: " + object_scale + "\n";
+									tpl += "\t\t\t\t\t\tY: " + object_scale + "\n";
+									tpl += "\t\t\t\t\t\tZ: " + object_scale + "\n";
 								tpl += "\t\t\t\t\t\t}\n";
 							tpl += "\t\t\t\t\t}\n";
 						
