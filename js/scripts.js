@@ -460,7 +460,7 @@ class Pixel_Art_To_Template {
 			$("#total").text(non_merged_counter);
 			$("#mergetotal").text(merged_counter);
 
-			this.save(file_name + ".pbt", tpl, merged_counter);
+			this.save(((is_ui)? "UI - " : "") + file_name + ".pbt", tpl, merged_counter);
 		}
 	}
 
