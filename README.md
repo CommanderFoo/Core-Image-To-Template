@@ -6,11 +6,11 @@ https://popthosepringles.github.io/Core-Image-To-Template/
 
 &nbsp;
 
-Creating Pixel Art in [Core](https://coregames.com) is a very time consuming process.  Currently you can't import images, so to create Pixel Art, you need to use planes and painstakingly position each one.
+Creating Pixel Art in [Core](https://coregames.com) is a very time consuming process.  Currently you can't import images, so to create Pixel Art you need to use planes and painstakingly position each one.
 
-With this tool you can select an image, and a template will be generated for you that can be dropped into your templates folder.
+With this tool you select an image (ideally pixel art, though higher resolution images will work), and a template will be generated for you that can be dropped into your templates folder.
 
-We use 2 methods to help with performance with in editor, and runtime.
+We use a few methods to help with editor performance and runtime performance.
 
 - Maximal Rectangle Algorithm
 	
