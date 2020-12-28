@@ -10,7 +10,7 @@ Creating Pixel Art in [Core](https://coregames.com) is a very time consuming pro
 
 With this tool you can select an image, and a template will be generated for you that can be dropped into your templates folder.
 
-We use 2 methods of performance to help with in editor, and runtime performance.
+We use 2 methods to help with performance with in editor, and runtime.
 
 - Maximal Rectangle Algorithm
 	
