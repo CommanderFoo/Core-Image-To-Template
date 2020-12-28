@@ -20,3 +20,10 @@ We use a few methods to help with editor performance and runtime performance.
 
 	With the release of Mesh Merge, we can combine objects together so that at runtime they become 1 object.  We handle wrapping all the pixels (planes) in a mesh merge folder so that when you enter play mode the pixel art is reduced to 1 object.  This is great for runtime performance which now opens up the doors for pixel art style games.
 ---
+
+## Examples
+
+Below are a few examples of what can be done with the tool.
+
+![](images/preview1.png) ![](images/preview2.png)
+![](images/preview3.png) ![](images/preview4.png)
