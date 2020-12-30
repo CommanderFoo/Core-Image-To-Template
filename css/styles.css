@@ -13,7 +13,9 @@ html, body {
 
 body {
 
-	background-color: #41464a
+	background-color: #41464a;
+	background-image: url(../images/bg.png);
+	background-repeat: repeat;
 
 }
 
@@ -29,10 +31,10 @@ body {
 
 .main {
 
-	display:flex; 
-	justify-content:center;
-	align-items:center;
-	height:100vh;
+	display: flex; 
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
 	flex-direction: column
 
 }
@@ -109,5 +111,21 @@ body {
 #stats, #mats, #scale {
 
 	margin-top: 15px;
+
+}
+
+a {
+
+	color: white;
+	text-decoration: none;
+
+}
+
+.github {
+
+	position: absolute;
+	top: 15px;
+	right: 15px;
+	color: white;
 
 }

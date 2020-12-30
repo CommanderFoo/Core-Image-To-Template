@@ -112,24 +112,25 @@ class Pixel_Art_To_Template {
 	}
 
 	// create list of colors that are being used by this image (don't include duplicates)
+
 	static get_colors(data,width,height){ //MR
 		let _colors = [];
 		for(let y = 0; y < height; ++ y){
-
 			for(let x = 0; x < width; ++ x){
-				
-				if( !_colors.includes(data[y][x].compare) ){
+				if(!_colors.includes(data[y][x].compare)){
 					_colors.push(data[y][x].compare)
 				}
 			}
 		}
+
 		return _colors;
 	}
 	
 	// mark rectangle so won't be counted again MR
-	static markRect({ x1, y1, x2, y2 }) {
-		for (let i = x1; i <= x2; ++i) {
-			for (let j = y1; j <= y2; ++j) {
+
+	static markRect({ x1, y1, x2, y2 }){
+		for(let i = x1; i <= x2; ++i){
+			for(let j = y1; j <= y2; ++j){
 				this._data[j][i].compare = 0;
 			}
 		}
@@ -150,6 +151,7 @@ class Pixel_Art_To_Template {
 			}
 			if (foundCorner){ break;}
 		}		
+
 		// find bottom right corner
 		for (let i = rect.x1; i <= rect.x2; ++i) {
 			if (this._data[rect.y1][i].compare !== _needle) {
@@ -167,8 +169,8 @@ class Pixel_Art_To_Template {
 	}	
 
 	// search through array to combine meshes both width and height to lessen mesh count
+
 	static MaximalRectangle(_color){		
-		
 		// get the area covered by rectangles
 		let totalRectArea = 0;
 		
@@ -190,18 +192,27 @@ class Pixel_Art_To_Template {
 		}
 	}
 	
+	static clean_up(){
+		this._rects = [];
+		this._rectArea = 0;
+		this._data = [];
+		this._width = 0;
+		this._height = 0;
+	}
 
 	static generate(image_data, file_name){
 		this.unique_start_id = +(new Date());
 
 		if(image_data){
+			this.clean_up()
+
 			let data = image_data.data;
 			let width = image_data.width;
 			let height = image_data.height;
 
 			this._width = width; //MR
 			this._height = height;
-			
+
 			/* Display the pixel art's width and height (MR) */
 			$("#artwidth").val(this._width);
 			$("#artheight").val(this._height);
@@ -216,20 +227,21 @@ class Pixel_Art_To_Template {
 			let colors_array = this.get_colors(structured_data,width,height); //MR
 			//$("#output").append(colors_array.toString());
 
-			for(let aa = 0; aa < colors_array.length; ++aa)// run through all color codes
-			{
+			for(let aa = 0; aa < colors_array.length; ++aa){
 				if(colors_array[aa] != "0:0:0:0"){// ignore blank/empty
-					this.MaximalRectangle( colors_array[aa] );
+					this.MaximalRectangle(colors_array[aa]);
 				}
+
 				// search for each color, to combine meshes for "Maximal Rectangle"
 				//let maximal_data = this.maximal_rectangle(colors_array[aa],structured_data,width,height);
 			}
 			
 			// Test our Maximal Rectangle array 			
 			// print out the new array to copy
-			if(0>1)
-			{
+
+			if(0 > 1){
 				$("#output").text(this._rects.length + " meshes via Maximal Rectangle: ");
+
 				let _build = "<br />";
 				
 				for(var i = 0; i < this._rects.length; i++){
@@ -253,12 +265,11 @@ class Pixel_Art_To_Template {
 					_build += i < this._rects.length-1 ? "," : "";
 
 				}
+
 				$("#output").append(_build);
 				// color, x, y, width, height
 				//{color:_needle, x1: 0, x2: this.width-1, y1: 0, y2: this.height-1 };
 			}
-
-
 
 			let asset_id = this.get_unique_id();
 			let root_id = this.get_unique_id();
@@ -301,7 +312,6 @@ class Pixel_Art_To_Template {
 				let pixel_y = this._rects[ff].y1;
 				let scale_x = 0;
 				let scale_y = 0;
-
 			
 				if(is_ui){
 					pixel_x = (((pixel_x + (pixel_width / 2)) * (object_scale / 10))).toFixed(4);
@@ -620,15 +630,6 @@ class Pixel_Art_To_Template {
 	}
 
 }
-
-// setting initial values for Pixel_Art_To_Template()
-Pixel_Art_To_Template._rects = [];
-Pixel_Art_To_Template._rectArea = 0;
-Pixel_Art_To_Template._data = [];
-Pixel_Art_To_Template._width = 0;
-Pixel_Art_To_Template._height = 0;
-
-
 
 $(() => {
 
