@@ -79,7 +79,7 @@ body {
 	-webkit-box-shadow: 0px 0px 12px 0px #000000; 
 	box-shadow: 0px 0px 12px 0px #000000;
 	color: white;
-	width: 350px;
+	width: 370px;
 	padding: .8em;
     background: #4d5457;
     border-radius: .5em;
@@ -108,7 +108,7 @@ body {
 
 }
 
-#stats, #mats, #scale {
+#stats, #mats, #scale, #opts {
 
 	margin-top: 15px;
 
