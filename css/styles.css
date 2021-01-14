@@ -129,3 +129,18 @@ a {
 	color: white;
 
 }
+
+.issues {
+
+	position: absolute;
+	top: 15px;
+	left: 15px;
+	color: white;
+
+}
+
+.issues div {
+
+	margin-left: 5px;
+
+}

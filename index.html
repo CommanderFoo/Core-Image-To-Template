@@ -3,9 +3,9 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Core - Pixel Art -> Template</title>
-		<link rel="stylesheet" href="css/styles.css?v1.0.2" />
+		<link rel="stylesheet" href="css/styles.css?v1.0.3" />
 		<script src="js/jquery.js"></script>
-		<script src="js/scripts.js?v1.0.2"></script>
+		<script src="js/scripts.js?v1.0.3"></script>
 	</head>
 	<body>
 		<canvas id="preview" width="1" height="1"></canvas>
@@ -33,11 +33,11 @@
 				</div>
 				<div id="opts">
 					<span>
-						<label for="ui">UI</label>
+						<label for="ui" title="For UI images, use this.  Note:  This might be broken.">UI</label>
 						<input type="checkbox" id="ui" value="1" />
 					</span>&nbsp;&nbsp;
 					<span>
-						<label for="maximal" title="If you have issues with pixels not merging correctly, then disable this">Use Maximal</label>
+						<label for="maximal" title="If you have issues with pixels not merging correctly, then disable this.">Use Maximal</label>
 						<input type="checkbox" id="maximal" value="1" checked />
 					</span>
 				</div>
@@ -45,6 +45,10 @@
 					Objects: <span id="total">0</span> &nbsp;/&nbsp; After Merge: <span id="mergetotal">0</span>
 				</div>
 			</div>
+		</div>
+		<div class="issues">
+			<span>Issues:</span>
+			<div>- UI option is likely broken.<br />- Maximal doesn't merge correctly all the time.</div>
 		</div>
 		<div class="github">
 			<a href="https://github.com/PopThosePringles/Core-Image-To-Template">GitHub</a> | <a href="https://github.com/PopThosePringles/Core-Image-To-Template/commits/master">Latest Changes</a>
