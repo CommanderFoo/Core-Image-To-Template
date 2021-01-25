@@ -496,8 +496,8 @@ class Pixel_Art_To_Template {
 
 							if(is_ui){
 								tpl += "\t\t\t\tControl {\n";
-									tpl += "\t\t\t\t\tWidth: " + (pixel_width * (object_scale / 10)).toFixed(0) + "\n";
-									tpl += "\t\t\t\t\tHeight: " + (pixel_height * (object_scale / 10)).toFixed(0) + "\n";
+									tpl += "\t\t\t\t\tWidth: " + (width * (object_scale / 10)).toFixed(0) + "\n";
+									tpl += "\t\t\t\t\tHeight: " + (height * (object_scale / 10)).toFixed(0) + "\n";
 									tpl += "\t\t\t\t\tRenderTransformPivot {\n";
 										tpl += "\t\t\t\t\t\tAnchor {\n";
 											tpl += "\t\t\t\t\t\t\tValue: \"mc:euianchor:middlecenter\"\n";
