@@ -108,10 +108,17 @@ body {
 
 }
 
-#stats, #mats, #scale, #opts {
+#stats, #mats, #scale, #opts, #help {
 
 	margin-top: 15px;
 
+}
+
+#help {
+
+	text-align: center;
+	font-size: 10px;
+	
 }
 
 a {
@@ -136,6 +143,7 @@ a {
 	top: 15px;
 	left: 15px;
 	color: white;
+	font-size: 12px;
 
 }
 
