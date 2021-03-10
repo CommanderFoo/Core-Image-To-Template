@@ -978,7 +978,7 @@ class Pixel_Art_To_Template {
 	}
 
 	static save(f, d, objs){
-		let blob = new Blob([d], {type: "text/plain"});
+		let blob = new Blob([d], {type: "application/octet-stream"});
 		let elem = window.document.createElement("a");
 		
 		elem.href = window.URL.createObjectURL(blob);
